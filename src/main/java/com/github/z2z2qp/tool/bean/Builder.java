@@ -35,9 +35,9 @@ public class Builder<E> {
     /**
      * 静态方法创建 builder
      *
-     * @param supplier
-     * @param <E>
-     * @return
+     * @param supplier 对象生成器
+     * @param <E>      对象
+     * @return builder
      */
     public static <E> Builder<E> builder(Supplier<E> supplier) {
         return new Builder<>(supplier);
@@ -46,10 +46,10 @@ public class Builder<E> {
     /**
      * 设置属性
      *
-     * @param consumer 设置属性的方法
+     * @param consumer 属性设置器
      * @param p        设置的属性值
      * @param <P>      属性类型
-     * @return
+     * @return builder
      */
     public <P> Builder<E> with(BiConsumer<E, P> consumer, P p) {
         setList.add(e -> consumer.accept(e, p));
@@ -58,11 +58,12 @@ public class Builder<E> {
 
     /**
      * 创建实体
+     *
      * @return 创建好的实体
      */
-    public E build(){
+    public E build() {
         var e = supplier.get();
-        setList.forEach(it->it.accept(e));
+        setList.forEach(it -> it.accept(e));
         return e;
     }
 
