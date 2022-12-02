@@ -1,10 +1,12 @@
 package com.github.z2z2qp.tool.tree;
 
 
+import com.github.z2z2qp.tool.bean.Cast;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -19,29 +21,29 @@ public class TreeUtil {
      * @return 构建好的树
      */
     public static List<Tree> createTree(List<? extends Tree> list) {
-        var map = new HashMap<String, Tree>();
-        list.forEach(it -> map.put(it.id(), it));
-        return createTree0(map, Tree::pid, Tree::children);
+        Objects.requireNonNull(list, "源集合不能为空");
+        return createTree(list, it -> it);
     }
 
     /**
      * 含树结构任意集合构建数据
      *
-     * @param list        含树结构集合
-     * @param id    id获取方法
-     * @param pid   父id获取方法
+     * @param list     含树结构集合
+     * @param id       id获取方法
+     * @param pid      父id获取方法
      * @param children 子节点集合获取方法
-     * @param <T>         含数据结构实体
+     * @param <T>      含数据结构实体
      * @return 构建好的树
      */
     public static <T> List<T> createTree(List<T> list,
                                          Function<T, String> id,
                                          Function<T, String> pid,
                                          Function<T, List<T>> children) {
-        var map = new HashMap<String, T>();
-        list.forEach(it -> {
-            map.put(id.apply(it), it);
-        });
+        Objects.requireNonNull(list, "源集合不能为空");
+        Objects.requireNonNull(id, "id规则不能为空");
+        Objects.requireNonNull(pid, "pid规则不能为空");
+        Objects.requireNonNull(children, "children规则不能为空");
+        var map = Cast.listToMap(list, id);
         return createTree0(map, pid, children);
     }
 
@@ -54,11 +56,9 @@ public class TreeUtil {
      * @return 构建好的树
      */
     public static <T> List<Tree> createTree(List<T> list, Function<T, Tree> treeCreator) {
-        var map = new HashMap<String, Tree>();
-        list.forEach(it -> {
-            var tree = treeCreator.apply(it);
-            map.put(tree.id(), tree);
-        });
+        Objects.requireNonNull(list, "源集合不能为空");
+        Objects.requireNonNull(treeCreator, "树生成器不能为空");
+        var map = Cast.listToMap(list, treeCreator.andThen(Tree::id), treeCreator);
         return createTree0(map, Tree::pid, Tree::children);
     }
 
