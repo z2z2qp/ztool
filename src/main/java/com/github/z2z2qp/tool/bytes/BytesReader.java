@@ -134,6 +134,7 @@ public class BytesReader {
 
     /**
      * 从 index 开始获取一个byte
+     *
      * @param index 起始位置
      * @return 获得的byte
      */
@@ -144,6 +145,7 @@ public class BytesReader {
 
     /**
      * 从 index 开始获取一个short
+     *
      * @param index 起始位置
      * @return 获得的short
      */
@@ -155,6 +157,7 @@ public class BytesReader {
 
     /**
      * 从 index 开始获取一个int
+     *
      * @param index 起始位置
      * @return 获得的int
      */
@@ -166,6 +169,7 @@ public class BytesReader {
 
     /**
      * 从 index 开始获取一个long
+     *
      * @param index 起始位置
      * @return 获得的long
      */
@@ -177,6 +181,7 @@ public class BytesReader {
 
     /**
      * 顺序读取下一个float
+     *
      * @return 获得的float
      */
     public float readFloat() {
@@ -186,6 +191,7 @@ public class BytesReader {
 
     /**
      * 顺序读取下一个double
+     *
      * @return 获得的double
      */
     public double readDouble() {
@@ -195,6 +201,7 @@ public class BytesReader {
 
     /**
      * 从 index 开始获取一个float
+     *
      * @param index 起始位置
      * @return 获得的float
      */
@@ -205,6 +212,7 @@ public class BytesReader {
 
     /**
      * 从 index 开始获取一个double
+     *
      * @param index 起始位置
      * @return 获得的double
      */
@@ -217,7 +225,6 @@ public class BytesReader {
         boolean flag = index >= 0 && index < cache.length;
         if (!flag) {
             throw new IndexOutOfBoundsException(String.format("下标%s,不在[0,%s)范围内了", index, cache.length));
-
         }
     }
 }
