@@ -227,4 +227,33 @@ public class BytesReader {
             throw new IndexOutOfBoundsException(String.format("下标%s,不在[0,%s)范围内了", index, cache.length));
         }
     }
+
+
+    /**
+     * 顺序读取length长度的byte数组
+     *
+     * @param length byte数组长度
+     * @return byte 数组
+     */
+    public byte[] readBytes(int length) {
+        var result = new byte[length];
+        for (var i = 0; i < length; i++) {
+            result[i] = readByte();
+        }
+        return result;
+    }
+    /**
+     * 从 index 开始获取一个length长度的数组
+     *
+     * @param index 起始位置
+     * @param length 长度
+     * @return 获得的byte 数组
+     */
+    public byte[] getBytes(int index, int length) {
+        var result = new byte[length];
+        for (var i = 0; i < length; i++) {
+            result[i] = getByte(index + i);
+        }
+        return result;
+    }
 }
