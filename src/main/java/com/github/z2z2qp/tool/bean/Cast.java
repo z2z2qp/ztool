@@ -19,22 +19,10 @@ public class Cast {
         return (T) obj;
     }
 
-    /**
-     * 将 List&lt;S&gt; 集合转换 为 List&lt;T&gt;
-     *
-     * @param list     待转换集合
-     * @param function 转换规则
-     * @param <T>      目标范型
-     * @param <S>      源范型
-     * @return 转换后待结果
-     */
-    public static <S, T> List<T> cast(List<S> list, Function<S, T> function) {
-        Objects.requireNonNull(list, "待转集合不能为空");
-        Objects.requireNonNull(function, "转换规则不能为空");
-        return list.stream().collect(ArrayList::new,
-                (r, t) -> r.add(function.apply(t)),
-                ArrayList::addAll);
+    public static <T> T cast(Object obj, Class<T> clazz) {
+        return clazz.cast(obj);
     }
+
 
     /**
      * 类型转换
@@ -54,6 +42,24 @@ public class Cast {
     }
 
     /**
+     * 将 List&lt;S&gt; 集合转换 为 List&lt;T&gt;
+     *
+     * @param list     待转换集合
+     * @param function 转换规则
+     * @param <T>      目标范型
+     * @param <S>      源范型
+     * @return 转换后待结果
+     */
+    public static <S, T> List<T> cast(List<S> list, Function<S, T> function) {
+        Objects.requireNonNull(list, "待转集合不能为空");
+        Objects.requireNonNull(function, "转换规则不能为空");
+        return list.parallelStream().collect(ArrayList::new,
+                (r, t) -> r.add(function.apply(t)),
+                List::addAll);
+    }
+
+
+    /**
      * 将集合转换为 map key 安规则生成，value为集合本身元素
      *
      * @param list     待转换集合
@@ -65,9 +71,9 @@ public class Cast {
     public static <K, V> Map<K, V> listToMap(Collection<V> list, Function<V, K> function) {
         Objects.requireNonNull(list, "待转集合不能为空");
         Objects.requireNonNull(function, "转换规则不能为空");
-        return list.stream().collect(HashMap::new,
+        return list.parallelStream().collect(HashMap::new,
                 (r, t) -> r.put(function.apply(t), t),
-                HashMap::putAll);
+                Map::putAll);
     }
 
     /**
@@ -85,8 +91,8 @@ public class Cast {
         Objects.requireNonNull(list, "待转集合不能为空");
         Objects.requireNonNull(keyFunction, "key转换规则不能为空");
         Objects.requireNonNull(valueFunction, "value转换规则不能为空");
-        return list.stream().collect(HashMap::new,
+        return list.parallelStream().collect(HashMap::new,
                 (r, t) -> r.put(keyFunction.apply(t), valueFunction.apply(t)),
-                HashMap::putAll);
+                Map::putAll);
     }
 }

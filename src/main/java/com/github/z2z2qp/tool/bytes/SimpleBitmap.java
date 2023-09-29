@@ -54,8 +54,8 @@ public class SimpleBitmap {
     }
 
     /**
-     * 1  0 101010 01010101
-     * 15 14 ……           0
+     * <p>1  0 101010 01010101</p>
+     * <p>15 14 ……           0</p>
      * 获取第index位的值 高位在前
      *
      * @param index 序号
@@ -82,7 +82,7 @@ public class SimpleBitmap {
         if (check(index)) {//未超过最大长度直接设置
             int temp = value.length - (index / 8 + 1);
             int temp2 = index % 8;
-            value[temp] |= (1 << temp2);
+            value[temp] |= (byte) (1 << temp2);
         } else {//超过最大长度数组扩容后设值
             byte[] bytes = new byte[index / 8 + 1];
             System.arraycopy(value, 0, bytes, bytes.length - value.length, value.length);
@@ -100,7 +100,7 @@ public class SimpleBitmap {
         if (check(index)) {
             int temp = value.length - (index / 8 + 1);
             int temp2 = index % 8;
-            value[temp] &= ~(1 << temp2);
+            value[temp] &= (byte) ~(1 << temp2);
         } else {
             throw new IndexOutOfBoundsException(index + " is out of max:" + (value.length * 8 - 1));
         }
