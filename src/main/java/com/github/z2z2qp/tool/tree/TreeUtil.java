@@ -3,6 +3,7 @@ package com.github.z2z2qp.tool.tree;
 
 import com.github.z2z2qp.tool.bean.Cast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +37,8 @@ public class TreeUtil {
      * @return 构建好的树
      */
     public static <T> List<T> createTree(List<T> list,
-                                         Function<T, String> id,
-                                         Function<T, String> pid,
+                                         Function<T, Serializable> id,
+                                         Function<T, Serializable> pid,
                                          Function<T, List<T>> children) {
         Objects.requireNonNull(list, "源集合不能为空");
         Objects.requireNonNull(id, "id规则不能为空");
@@ -62,8 +63,8 @@ public class TreeUtil {
         return createTree0(map, Tree::pid, Tree::children);
     }
 
-    private static <T> List<T> createTree0(Map<String, T> nodeMap,
-                                           Function<T, String> pidFunc,
+    private static <T> List<T> createTree0(Map<Serializable, T> nodeMap,
+                                           Function<T, Serializable> pidFunc,
                                            Function<T, List<T>> childrenFunc) {
         var root = new ArrayList<T>();
         nodeMap.values().forEach(it -> {

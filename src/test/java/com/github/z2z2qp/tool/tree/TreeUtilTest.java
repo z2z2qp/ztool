@@ -10,11 +10,11 @@ public class TreeUtilTest extends TestCase {
 
     public void testCreateTree() {
         var list = List.of(
-                new Tree("1", "a", "0"),
-                new Tree("2", "b", "1"),
-                new Tree("3", "c", "1"),
-                new Tree("4", "b", "2"),
-                new Tree("5", "c", "3")
+                new Tree(1, "a", 0),
+                new Tree(2, "b", 1),
+                new Tree(3, "c", 1),
+                new Tree(4, "b", 2),
+                new Tree(5, "c", 3)
 
         );
         var t = TreeUtil.createTree(list);

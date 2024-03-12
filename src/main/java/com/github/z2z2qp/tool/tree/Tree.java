@@ -1,5 +1,6 @@
 package com.github.z2z2qp.tool.tree;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +13,11 @@ import java.util.List;
  * @param children 子元素
  */
 public record Tree(
-        String id,
+        Serializable id,
         String text,
-        String pid,
+        Serializable pid,
         List<Tree> children) {
-    public Tree(String id, String text, String pid) {
+    public Tree(Serializable id, String text, Serializable pid) {
         this(id, text, pid, new ArrayList<>());
     }
 }
