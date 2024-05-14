@@ -9,15 +9,15 @@ import java.util.function.Function;
 public class CastTest extends TestCase {
 
     public void testCast() {
-        int i = Cast.cast("abc");
+        int i = Cast.cast(1);
         System.out.println(i);
     }
 
     public void testTestCast() {
         var list = List.of("1", "2", "3");
         var list2 = Cast.cast(list, (Function<String, Integer>) Integer::valueOf);
-        System.out.println(list.getClass());
-        System.out.println(list2.getClass());
+        System.out.println(list);
+        System.out.println(list2);
     }
 
     public void testTestCast2() {
@@ -29,6 +29,11 @@ public class CastTest extends TestCase {
     public void testListToMap() {
         var list = List.of("1", "2", "3");
         var map = Cast.listToMap(list, Objects::hashCode);
+        System.out.println(map);
+    }
+    public void testListToMap2() {
+        var list = List.of("1", "2", "3");
+        var map = Cast.listToMap(list, Objects::hashCode,Integer::valueOf);
         System.out.println(map);
     }
 }

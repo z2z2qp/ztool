@@ -2,6 +2,7 @@ package com.github.z2z2qp.tool.bean;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 类型转换
@@ -53,9 +54,7 @@ public class Cast {
     public static <S, T> List<T> cast(List<S> list, Function<S, T> function) {
         Objects.requireNonNull(list, "待转集合不能为空");
         Objects.requireNonNull(function, "转换规则不能为空");
-        return list.parallelStream().collect(ArrayList::new,
-                (r, t) -> r.add(function.apply(t)),
-                List::addAll);
+        return list.stream().map(function).toList();
     }
 
 
@@ -71,9 +70,7 @@ public class Cast {
     public static <K, V> Map<K, V> listToMap(Collection<V> list, Function<V, K> function) {
         Objects.requireNonNull(list, "待转集合不能为空");
         Objects.requireNonNull(function, "转换规则不能为空");
-        return list.parallelStream().collect(HashMap::new,
-                (r, t) -> r.put(function.apply(t), t),
-                Map::putAll);
+        return list.stream().collect(Collectors.toMap(function, v -> v));
     }
 
     /**
@@ -91,8 +88,6 @@ public class Cast {
         Objects.requireNonNull(list, "待转集合不能为空");
         Objects.requireNonNull(keyFunction, "key转换规则不能为空");
         Objects.requireNonNull(valueFunction, "value转换规则不能为空");
-        return list.parallelStream().collect(HashMap::new,
-                (r, t) -> r.put(keyFunction.apply(t), valueFunction.apply(t)),
-                Map::putAll);
+        return list.stream().collect(Collectors.toMap(keyFunction, valueFunction));
     }
 }
