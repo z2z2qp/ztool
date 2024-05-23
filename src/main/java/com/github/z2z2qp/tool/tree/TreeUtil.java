@@ -36,9 +36,9 @@ public class TreeUtil {
      * @param <T>      含数据结构实体
      * @return 构建好的树
      */
-    public static <T> List<T> createTree(List<T> list,
-                                         Function<T, Serializable> id,
-                                         Function<T, Serializable> pid,
+    public static <T, ID extends Serializable> List<T> createTree(List<T> list,
+                                                                  Function<T, ID> id,
+                                                                  Function<T, ID> pid,
                                          Function<T, List<T>> children) {
         Objects.requireNonNull(list, "源集合不能为空");
         Objects.requireNonNull(id, "id规则不能为空");
@@ -63,8 +63,8 @@ public class TreeUtil {
         return createTree0(map, Tree::pid, Tree::children);
     }
 
-    private static <T> List<T> createTree0(Map<Serializable, T> nodeMap,
-                                           Function<T, Serializable> pidFunc,
+    private static <T, ID extends Serializable> List<T> createTree0(Map<ID, T> nodeMap,
+                                                                    Function<T, ID> pidFunc,
                                            Function<T, List<T>> childrenFunc) {
         var root = new ArrayList<T>();
         nodeMap.values().forEach(it -> {
